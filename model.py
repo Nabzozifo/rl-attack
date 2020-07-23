@@ -35,7 +35,7 @@ class model(Model):
                 out = layers.Conv2D(32, kernel_size=8, strides=4, activation=tf.nn.relu)
                 out = layers.Conv2D(64, kernel_size=4, strides=2, activation=tf.nn.relu)
                 out = layers.Conv2D(64, kernel_size=3, strides=1, activation=tf.nn.relu)
-            out = layers.Flatten(out)
+            out = layers.Flatten()(out)
 
             with tf.variable_scope("action_value"):
                 if self.noisy:
@@ -62,7 +62,7 @@ def dueling_model(img_in, num_actions, scope, noisy=False, reuse=False, concat_s
             out = layers.Conv2D(32, kernel_size=8, strides=4, activation=tf.nn.relu)
             out = layers.Conv2D(64, kernel_size=4, strides=2, activation=tf.nn.relu)
             out = layers.Conv2D(64, kernel_size=3, strides=1, activation=tf.nn.relu)
-        out = layers.Flatten(out)
+        out = layers.Flatten()(out)
 
         with tf.variable_scope("state_value"):
             if noisy:
