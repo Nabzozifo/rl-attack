@@ -35,7 +35,7 @@ def _cnn_to_mlp(convs, hiddens, dueling, inpt, num_actions, scope, reuse=False, 
         out = inpt
         with tf.variable_scope("convnet"):
             for num_outputs, kernel_size, stride in convs:
-                out = layers.convolution2d(out,
+                out = layers.Conv2D(out,
                                            num_outputs=num_outputs,
                                            kernel_size=kernel_size,
                                            stride=stride,
