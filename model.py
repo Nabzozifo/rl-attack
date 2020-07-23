@@ -32,20 +32,20 @@ class model(Model):
             out = img_in
             with tf.variable_scope("convnet"):
                 # original architecture
-                out = layers.Conv2D(out,  kernel_size=8, strides=4, activation_fn=tf.nn.relu)
-                out = layers.Conv2D(out, kernel_size=4, strides=2, activation_fn=tf.nn.relu)
-                out = layers.Conv2D(out,  kernel_size=3, strides=1, activation_fn=tf.nn.relu)
+                out = layers.Conv2D(out,  kernel_size=8, strides=4, activation=tf.nn.relu)
+                out = layers.Conv2D(out, kernel_size=4, strides=2, activation=tf.nn.relu)
+                out = layers.Conv2D(out,  kernel_size=3, strides=1, activation=tf.nn.relu)
             out = layers.flatten(out)
 
             with tf.variable_scope("action_value"):
                 if self.noisy:
                     # Apply noisy network on fully connected layers
                     # ref: https://arxiv.org/abs/1706.10295
-                    out = noisy_dense(out, name='noisy_fc1', size=512, activation_fn=tf.nn.relu)
+                    out = noisy_dense(out, name='noisy_fc1', size=512, activation=tf.nn.relu)
                     out = noisy_dense(out, name='noisy_fc2', size=self.num_actions)
                 else:
-                    out = layers.fully_connected(out, 512, activation_fn=tf.nn.relu)
-                    out = layers.fully_connected(out, self.num_actions, activation_fn=None)
+                    out = layers.fully_connected(out, 512, activation=tf.nn.relu)
+                    out = layers.fully_connected(out, self.num_actions, activation=None)
                 #V: Softmax - inspired by deep-rl-attack #
                 #if concat_softmax:
                 #prob = tf.nn.softmax(out)
@@ -59,29 +59,29 @@ def dueling_model(img_in, num_actions, scope, noisy=False, reuse=False, concat_s
         out = img_in
         with tf.variable_scope("convnet"):
             # original architecture
-            out = layers.Conv2D(out,  kernel_size=8, strides=4, activation_fn=tf.nn.relu)
-            out = layers.Conv2D(out,  kernel_size=4, strides=2, activation_fn=tf.nn.relu)
-            out = layers.Conv2D(out,  kernel_size=3, strides=1, activation_fn=tf.nn.relu)
+            out = layers.Conv2D(out,  kernel_size=8, strides=4, activation=tf.nn.relu)
+            out = layers.Conv2D(out,  kernel_size=4, strides=2, activation=tf.nn.relu)
+            out = layers.Conv2D(out,  kernel_size=3, strides=1, activation=tf.nn.relu)
         out = layers.flatten(out)
 
         with tf.variable_scope("state_value"):
             if noisy:
                 # Apply noisy network on fully connected layers
                 # ref: https://arxiv.org/abs/1706.10295
-                state_hidden = noisy_dense(out, name='noisy_fc1', size=512, activation_fn=tf.nn.relu)
+                state_hidden = noisy_dense(out, name='noisy_fc1', size=512, activation=tf.nn.relu)
                 state_score = noisy_dense(state_hidden, name='noisy_fc2', size=1)
             else:
-                state_hidden = layers.fully_connected(out, num_outputs=512, activation_fn=tf.nn.relu)
-                state_score = layers.fully_connected(state_hidden, num_outputs=1, activation_fn=None)
+                state_hidden = layers.fully_connected(out, num_outputs=512, activation=tf.nn.relu)
+                state_score = layers.fully_connected(state_hidden, num_outputs=1, activation=None)
         with tf.variable_scope("action_value"):
             if noisy:
                 # Apply noisy network on fully connected layers
                 # ref: https://arxiv.org/abs/1706.10295
-                actions_hidden = noisy_dense(out, name='noisy_fc1', size=512, activation_fn=tf.nn.relu)
+                actions_hidden = noisy_dense(out, name='noisy_fc1', size=512, activation=tf.nn.relu)
                 action_scores = noisy_dense(actions_hidden, name='noisy_fc2', size=num_actions)
             else:
-                actions_hidden = layers.fully_connected(out, num_outputs=512, activation_fn=tf.nn.relu)
-                action_scores = layers.fully_connected(actions_hidden, num_outputs=num_actions, activation_fn=None)
+                actions_hidden = layers.fully_connected(out, num_outputs=512, activation=tf.nn.relu)
+                action_scores = layers.fully_connected(actions_hidden, num_outputs=num_actions, activation=None)
             action_scores_mean = tf.reduce_mean(action_scores, 1)
             action_scores = action_scores - tf.expand_dims(action_scores_mean, 1)
 
