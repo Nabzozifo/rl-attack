@@ -1,5 +1,5 @@
 import tensorflow.compat.v1 as tf
-import tensorflow.contrib.layers as layers
+import tensorflow.keras.layers as layers
 
 
 def _mlp(hiddens, inpt, num_actions, scope, reuse=False, layer_norm=False):
