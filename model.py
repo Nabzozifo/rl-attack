@@ -32,9 +32,9 @@ class model(Model):
             out = img_in
             with tf.variable_scope("convnet"):
                 # original architecture
-                out = layers.Conv2D(out,  kernel_size=8, strides=4, activation=tf.nn.relu)
-                out = layers.Conv2D(out, kernel_size=4, strides=2, activation=tf.nn.relu)
-                out = layers.Conv2D(out,  kernel_size=3, strides=1, activation=tf.nn.relu)
+                out = layers.Conv2D(32, kernel_size=8, strides=4, activation=tf.nn.relu)
+                out = layers.Conv2D(64, kernel_size=4, strides=2, activation=tf.nn.relu)
+                out = layers.Conv2D(64, kernel_size=3, strides=1, activation=tf.nn.relu)
             out = layers.flatten(out)
 
             with tf.variable_scope("action_value"):
@@ -59,9 +59,9 @@ def dueling_model(img_in, num_actions, scope, noisy=False, reuse=False, concat_s
         out = img_in
         with tf.variable_scope("convnet"):
             # original architecture
-            out = layers.Conv2D(out,  kernel_size=8, strides=4, activation=tf.nn.relu)
-            out = layers.Conv2D(out,  kernel_size=4, strides=2, activation=tf.nn.relu)
-            out = layers.Conv2D(out,  kernel_size=3, strides=1, activation=tf.nn.relu)
+            out = layers.Conv2D(32, kernel_size=8, strides=4, activation=tf.nn.relu)
+            out = layers.Conv2D(64, kernel_size=4, strides=2, activation=tf.nn.relu)
+            out = layers.Conv2D(64, kernel_size=3, strides=1, activation=tf.nn.relu)
         out = layers.flatten(out)
 
         with tf.variable_scope("state_value"):
