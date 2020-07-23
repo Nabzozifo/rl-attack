@@ -5,7 +5,7 @@ import functools
 import copy
 import os
 import collections
-import tensorflow.contrib.layers as layers
+import tensorflow.keras.layers as layers
 
 # ================================================================
 # Make consistent with numpy
