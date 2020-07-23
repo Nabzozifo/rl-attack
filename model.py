@@ -32,9 +32,9 @@ class model(Model):
             out = img_in
             with tf.variable_scope("convnet"):
                 # original architecture
-                out = layers.Conv2D(out, num_outputs=32, kernel_size=8, stride=4, activation_fn=tf.nn.relu)
-                out = layers.Conv2D(out, num_outputs=64, kernel_size=4, stride=2, activation_fn=tf.nn.relu)
-                out = layers.Conv2D(out, num_outputs=64, kernel_size=3, stride=1, activation_fn=tf.nn.relu)
+                out = layers.Conv2D(out, 32, kernel_size=8, stride=4, activation_fn=tf.nn.relu)
+                out = layers.Conv2D(out, 64, kernel_size=4, stride=2, activation_fn=tf.nn.relu)
+                out = layers.Conv2D(out, 64, kernel_size=3, stride=1, activation_fn=tf.nn.relu)
             out = layers.flatten(out)
 
             with tf.variable_scope("action_value"):
@@ -44,8 +44,8 @@ class model(Model):
                     out = noisy_dense(out, name='noisy_fc1', size=512, activation_fn=tf.nn.relu)
                     out = noisy_dense(out, name='noisy_fc2', size=self.num_actions)
                 else:
-                    out = layers.fully_connected(out, num_outputs=512, activation_fn=tf.nn.relu)
-                    out = layers.fully_connected(out, num_outputs=self.num_actions, activation_fn=None)
+                    out = layers.fully_connected(out, 512, activation_fn=tf.nn.relu)
+                    out = layers.fully_connected(out, self.num_actions, activation_fn=None)
                 #V: Softmax - inspired by deep-rl-attack #
                 #if concat_softmax:
                 #prob = tf.nn.softmax(out)
@@ -59,9 +59,9 @@ def dueling_model(img_in, num_actions, scope, noisy=False, reuse=False, concat_s
         out = img_in
         with tf.variable_scope("convnet"):
             # original architecture
-            out = layers.Conv2D(out, num_outputs=32, kernel_size=8, stride=4, activation_fn=tf.nn.relu)
-            out = layers.Conv2D(out, num_outputs=64, kernel_size=4, stride=2, activation_fn=tf.nn.relu)
-            out = layers.Conv2D(out, num_outputs=64, kernel_size=3, stride=1, activation_fn=tf.nn.relu)
+            out = layers.Conv2D(out, 32, kernel_size=8, stride=4, activation_fn=tf.nn.relu)
+            out = layers.Conv2D(out, 64, kernel_size=4, stride=2, activation_fn=tf.nn.relu)
+            out = layers.Conv2D(out, 64, kernel_size=3, stride=1, activation_fn=tf.nn.relu)
         out = layers.flatten(out)
 
         with tf.variable_scope("state_value"):
