@@ -1,5 +1,5 @@
 import tensorflow.compat.v1 as tf
-import tensorflow.contrib.layers as layers
+import tensorflow.keras.layers as layers
 from rlattack.common.tf_util import noisy_dense
 from cleverhans.model import Model
 
